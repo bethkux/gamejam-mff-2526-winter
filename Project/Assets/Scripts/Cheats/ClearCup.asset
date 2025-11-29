@@ -9,24 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84bc16b2b76bb35dd8803cad68d337ea, type: 3}
+  m_Script: {fileID: 11500000, guid: db4fd87e5c6b4f74c8f7e158da802209, type: 3}
   m_Name: ClearCup
   m_EditorClassIdentifier: Assembly-CSharp::Cheat
-  Type: 0
-  Icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  Type: 1
+  Icon: {fileID: 0}
   RiskChance: 0
   OnCheatExecuted:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []

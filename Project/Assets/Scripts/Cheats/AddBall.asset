@@ -9,8 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84bc16b2b76bb35dd8803cad68d337ea, type: 3}
+  m_Script: {fileID: 11500000, guid: db4fd87e5c6b4f74c8f7e158da802209, type: 3}
   m_Name: AddBall
   m_EditorClassIdentifier: Assembly-CSharp::Cheat
-  Type: 1
-  AlertnessLevel: 0
+  Type: 0
+  Icon: {fileID: 0}
+  RiskChance: 0
+  OnCheatExecuted:
+    m_PersistentCalls:
+      m_Calls: []

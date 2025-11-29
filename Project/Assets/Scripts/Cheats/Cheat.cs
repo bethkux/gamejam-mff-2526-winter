@@ -4,8 +4,8 @@ using UnityEngine.Events;
 
 public enum CheatType
 {
-    CLEAR_CUP,      // one cup is see-through
     ADD_BALL,       // add a ball under one cup
+    CLEAR_CUP,      // one cup is see-through
     SWITCH_BALL,    // switch under which cup the ball is
 }
 
