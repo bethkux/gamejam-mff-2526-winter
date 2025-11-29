@@ -65,7 +65,9 @@ public class SwapManager : MonoBehaviour
     private List<Cup> _cups = new List<Cup>();
     private int _activeRepositionTweens = 0;
     private bool _isSwapping = false;
+    private bool _isCheckingCup = false;
     private GameObject _ball;
+    
 
     public void Init()
     {
@@ -102,7 +104,6 @@ public class SwapManager : MonoBehaviour
         });
     }
     
-
     public void Swap(int swapCount)
     {
         StartCoroutine(SwapRoutine(swapCount));
@@ -152,6 +153,9 @@ public class SwapManager : MonoBehaviour
 
     public bool IsBallUnderCup(Cup cup)
     {
+        if (_isCheckingCup) return false;
+        _isCheckingCup = true;
+        
         bool isUnder = cup.transform.childCount == 1;
         if (isUnder)
         {
@@ -164,6 +168,7 @@ public class SwapManager : MonoBehaviour
         {
             JitterHorizontal(transform);
             _ball.transform.parent = cup.transform;
+            _isCheckingCup = false;
         });
 
         return isUnder;
