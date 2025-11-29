@@ -20,7 +20,7 @@ public class SpriteSequenceManager : MonoBehaviour
             _spriteRenderer.sprite = _frames[0];
             yield return new WaitForSeconds(_swapTime);
 
-            // Conditional frame
+            // Conditional frame    
             if (ConditionA())
             {
                 _spriteRenderer.sprite = _frames[1];
