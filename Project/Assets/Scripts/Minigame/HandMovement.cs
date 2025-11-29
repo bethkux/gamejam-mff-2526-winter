@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class HandMovement : MonoBehaviour
@@ -18,6 +19,14 @@ public class HandMovement : MonoBehaviour
     public float FollowSpeed = 10f;
 
     // ----------------------------------------------------
+    // HIDING/REVEALING
+    [Header("Hiding/Revealing")]
+    public Vector2 RevealPosition;
+    public Vector2 HidePosition;
+    public float HideSpeed;
+    private Coroutine moveRoutine;
+
+    // ----------------------------------------------------
     // HAND TREMBLING
     [Header("Hand trembling")]
     [Tooltip("The \"length\" of the shake in X axis")]
@@ -33,8 +42,6 @@ public class HandMovement : MonoBehaviour
 
     // ----------------------------------------------------
     // MOUSE DRIFTING
-    //[Header("Mouse drifting")]
-    //public bool ApplyDrift = true;
     [Tooltip("How fast it can get to slide")]
     public float DriftAcceleration = 2f;
     [Tooltip("How fast it slows down")]
@@ -42,16 +49,10 @@ public class HandMovement : MonoBehaviour
     private Vector3 driftVelocity;
 
 
-
     public enum State
     {
         KeyControllable,
         NotControllable
-    }
-
-    void Start()
-    {
-        
     }
 
     void Update()
@@ -65,6 +66,15 @@ public class HandMovement : MonoBehaviour
                 break;
         }
     }
+
+    private void Start()
+    {
+        MovementState = State.NotControllable;
+        transform.position = HidePosition;
+        Position = transform.position;
+        RevealHand();
+    }
+
 
     void SetPosition()
     {
@@ -119,4 +129,44 @@ public class HandMovement : MonoBehaviour
 
         return new Vector3(x * ShakingX, y * ShakingY, 0f);
     }
+
+    IEnumerator MoveTo(Vector2 target)
+    {
+        Vector3 start = Position;
+        float t = 0f;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime * HideSpeed;
+
+            float eased = Mathf.SmoothStep(0f, 1f, t);
+
+            Position = Vector3.Lerp(start, target, eased);
+            yield return null;
+        }
+
+        Position = target;
+    }
+
+
+    public void HideHand()
+    {
+        MovementState = State.NotControllable;
+
+        if (moveRoutine != null)
+            StopCoroutine(moveRoutine);
+
+        moveRoutine = StartCoroutine(MoveTo(HidePosition));
+    }
+
+    public void RevealHand()
+    {
+        if (moveRoutine != null)
+            StopCoroutine(moveRoutine);
+
+        moveRoutine = StartCoroutine(MoveTo(RevealPosition));
+
+        MovementState = State.KeyControllable;
+    }
+
 }
