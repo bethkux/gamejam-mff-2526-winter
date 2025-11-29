@@ -8,7 +8,6 @@ using UnityEngineInternal;
 [RequireComponent(typeof(SpriteRenderer))]
 public class HandMovement : MonoBehaviour
 {
-
     private static HandMovement _Instance;
     public static HandMovement Instance { get => _Instance; }
 

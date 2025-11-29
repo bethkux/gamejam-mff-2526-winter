@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(SpriteRenderer))]
 public class ObservingMinigame : MonoBehaviour
 {
-    [Range(0.6f, 1.2f)]
+    [Range(0.6f, 1.4f)]
     public float Difficulty;
 
     [Header("Eye Sprites")]
@@ -161,8 +161,8 @@ public class ObservingMinigame : MonoBehaviour
 
     public void IncreaseDifficulty()
     {
-        Difficulty -= 0.7f;
-        Difficulty = Mathf.Clamp(Difficulty, 0.6f, 1.2f);
+        Difficulty -= 0.15f;
+        Difficulty = Mathf.Clamp(Difficulty, 0.6f, 1.4f);
 
         UpdateTimers();
     }

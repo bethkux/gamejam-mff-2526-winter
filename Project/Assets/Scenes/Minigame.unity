@@ -690,6 +690,7 @@ GameObject:
   - component: {fileID: 1444220315}
   - component: {fileID: 1444220316}
   - component: {fileID: 1444220317}
+  - component: {fileID: 1444220318}
   m_Layer: 0
   m_Name: Hand
   m_TagString: Untagged
@@ -889,6 +890,20 @@ MonoBehaviour:
   Up: {fileID: 113465328}
   Down: {fileID: 943321506}
   Other: {fileID: 35608571}
+--- !u!114 &1444220318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1444220311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461d621d193e9ea428b2d35bac9425f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  observingMinigame: {fileID: 1615072218}
+  gameData: {fileID: 11400000, guid: 32e7217e2b11ced44b80312295e56b02, type: 2}
 --- !u!1 &1615072215
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,7 +1007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 543204c0fc6712f4590fc97605f18710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  Difficulty: 1.2
+  Difficulty: 1.4
   OpenEye: {fileID: -4952864029740751499, guid: 6dbaf66d94374ad428bc72dbd5d36631, type: 3}
   Alert: {fileID: 8409719147230866609, guid: ffdac71101bb01e4abfff38af3159644, type: 3}
   CloseEye: {fileID: 4421120813326340418, guid: 3c8eb9fc96c589445aac6f1d1e8a4942, type: 3}
