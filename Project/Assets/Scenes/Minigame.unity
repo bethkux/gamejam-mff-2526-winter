@@ -183,7 +183,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 8986663173653194058, guid: 74588a323c38c9e47835c6f8c17bfc90, type: 3}
+  m_Sprite: {fileID: 8986663173653194058, guid: baf2e24844e24ea48bded0732b0d60a9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -329,6 +329,8 @@ MonoBehaviour:
   ShakeSpeed: 7.4
   DriftAcceleration: 5
   DriftFriction: 4
+  HandShapes_Normal: []
+  HandShapes_Minigame: []
 --- !u!1 &1615072215
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,9 +435,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   Difficulty: 1.2
-  OpenEye: {fileID: 8409719147230866609, guid: 69efabcebf1f12b4f882d38e31cd5ef5, type: 3}
-  Alert: {fileID: -4952864029740751499, guid: 31f3cba1b7ff9bf4a865165d60da672c, type: 3}
-  CloseEye: {fileID: 4421120813326340418, guid: c4ce61e59df39a54aa3f5a7754957c32, type: 3}
+  OpenEye: {fileID: -4952864029740751499, guid: 6dbaf66d94374ad428bc72dbd5d36631, type: 3}
+  Alert: {fileID: 8409719147230866609, guid: ffdac71101bb01e4abfff38af3159644, type: 3}
+  CloseEye: {fileID: 4421120813326340418, guid: 3c8eb9fc96c589445aac6f1d1e8a4942, type: 3}
   HandMovement: {fileID: 1444220314}
   MinObserveTime: 1.5
   MinRestTime: 1.5
