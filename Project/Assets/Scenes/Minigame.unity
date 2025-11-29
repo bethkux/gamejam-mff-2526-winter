@@ -204,7 +204,7 @@ Transform:
   m_GameObject: {fileID: 1444220311}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -2.54, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -226,6 +226,9 @@ MonoBehaviour:
   IsDrunk: 0
   Speed: 0.04
   FollowSpeed: 10
+  RevealPosition: {x: 0, y: -2}
+  HidePosition: {x: 0, y: -6}
+  HideSpeed: 1.5
   ShakingX: 0.6
   ShakingY: 0.2
   ShakeSpeed: 7.4
