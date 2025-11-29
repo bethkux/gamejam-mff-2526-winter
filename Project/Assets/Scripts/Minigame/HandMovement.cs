@@ -93,7 +93,7 @@ public class HandMovement : MonoBehaviour
         if (Cups.Count <= 0)
         {
             Debug.LogError("No Cupsss????");
-            //SwapManager.Instance.Start();
+            
         }
         else
         {

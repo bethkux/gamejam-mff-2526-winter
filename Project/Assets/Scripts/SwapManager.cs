@@ -20,6 +20,7 @@ public class SwapManager : MonoBehaviour
         }
 
         Instance = this;
+        Init();
 
         // Optional:
         DontDestroyOnLoad(gameObject);
@@ -35,8 +36,7 @@ public class SwapManager : MonoBehaviour
     [SerializeField] private UnityEvent OnSwappingFinished = new UnityEvent();
     [SerializeField] private UnityEvent OnRepositionFinished = new UnityEvent();
 
-
-
+    
     public List<Cup> Cups
     {
         get => _cups;
@@ -67,7 +67,7 @@ public class SwapManager : MonoBehaviour
     private bool _isSwapping = false;
     private GameObject _ball;
 
-    public void Start()
+    public void Init()
     {
         if (!_ball)
         {
@@ -85,8 +85,6 @@ public class SwapManager : MonoBehaviour
         {
             RegisterCup();
         }
-        
-        
     }
 
     public void PlaceBall()
