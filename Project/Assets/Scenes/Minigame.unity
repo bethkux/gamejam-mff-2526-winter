@@ -223,8 +223,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandMovement
   Offset: {x: 0.28, y: -3.5}
-  movementState: 0
-  followSpeed: 10
+  MovementState: 0
+  FollowSpeed: 10
+  ShakingX: 1
+  ShakingY: 0.3
+  ShakeSpeed: 5
 --- !u!1 &1830305052
 GameObject:
   m_ObjectHideFlags: 0
