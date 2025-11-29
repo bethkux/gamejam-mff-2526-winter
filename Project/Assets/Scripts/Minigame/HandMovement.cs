@@ -2,31 +2,51 @@ using UnityEngine;
 
 public class HandMovement : MonoBehaviour
 {
+    // GENERAL MOUSE MOVEMENT
     [Header("Hand movement")]
-    public Vector2 Offset;
+    private Vector3 Position;
+
     public State MovementState;
+    public bool IsDrunk;
+
+    [Range(0f, 0.5f)]
+    [Tooltip("Changes the speed of the movement when NOT SLIDING")]
+    public float Speed; 
+
     [Range(0f, 20f)]
+    [Tooltip("Changes the \"lag\" behind the movement")]
     public float FollowSpeed = 10f;
 
+    // ----------------------------------------------------
+    // HAND TREMBLING
     [Header("Hand trembling")]
+    [Tooltip("The \"length\" of the shake in X axis")]
     public float ShakingX = 1f;
+    [Tooltip("The \"length\" of the shake in Y axis")]
     public float ShakingY = 0.3f;
+
     [Range(0.1f, 20f)]
+    [Tooltip("Shake speed")]
     public float ShakeSpeed = 5f;
     private float shakeTimeX;
     private float shakeTimeY;
 
-    [Header("Mouse drifting (ice)")]
-    public float DriftAcceleration = 10f;
-    public float DriftFriction = 3f;
+    // ----------------------------------------------------
+    // MOUSE DRIFTING
+    //[Header("Mouse drifting")]
+    //public bool ApplyDrift = true;
+    [Tooltip("How fast it can get to slide")]
+    public float DriftAcceleration = 2f;
+    [Tooltip("How fast it slows down")]
+    public float DriftFriction = 4f;
     private Vector3 driftVelocity;
 
 
 
     public enum State
     {
-        FollowingMouse,
-        NotFollowingMouse
+        KeyControllable,
+        NotControllable
     }
 
     void Start()
@@ -38,41 +58,54 @@ public class HandMovement : MonoBehaviour
     {
         switch (MovementState)
         {
-            case State.FollowingMouse:
-                SetPositionByMouse_org();
+            case State.KeyControllable:
+                SetPosition();
                 break;
             default:
                 break;
         }
     }
 
-    void SetPositionByMouse_org() 
-    { 
-        Vector2 mouseScreenPos = UnityEngine.InputSystem.Mouse.current.position.ReadValue(); 
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(
-            new Vector3(mouseScreenPos.x, mouseScreenPos.y, 0)
-        ); 
-        mouseWorldPos.z = 0; mouseWorldPos += (Vector3)Offset; 
-        transform.position = Vector3.Lerp(transform.position, mouseWorldPos + SetTrembling(), FollowSpeed * Time.deltaTime); 
+    void SetPosition()
+    {
+        Vector2 move = Vector2.zero;
+
+        var keyboard = UnityEngine.InputSystem.Keyboard.current;
+        if (keyboard.upArrowKey.isPressed) move.y += Speed;
+        if (keyboard.downArrowKey.isPressed) move.y -= Speed;
+        if (keyboard.rightArrowKey.isPressed) move.x += Speed;
+        if (keyboard.leftArrowKey.isPressed) move.x -= Speed;
+
+        Control(move, IsDrunk);
     }
 
-    void SetPositionByMouse()
+
+    void Control(Vector2 move, bool is_drunk)
     {
-        Vector2 mouseScreenPos = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(
-            new Vector3(mouseScreenPos.x, mouseScreenPos.y, 0)
-        );
-        mouseWorldPos.z = 0;
-        mouseWorldPos += (Vector3)Offset;
+        if (is_drunk)
+        {
+            // Apply drift
+            if (move != Vector2.zero)
+            {
+                Vector3 dir = new Vector3(move.x, move.y, 0f).normalized / 30;
+                driftVelocity += dir * Speed * DriftAcceleration * Time.deltaTime;
+            }
+            else
+            {
+                driftVelocity -= driftVelocity * DriftFriction * Time.deltaTime;
+            }
 
-        mouseWorldPos += SetTrembling();
+            Position += driftVelocity;
+        }
+        else
+        {
+            Position += (Vector3)move * 15 * Time.deltaTime;
+        }
 
-        Vector3 dir = mouseWorldPos - transform.position;
-        driftVelocity += dir * DriftAcceleration * Time.deltaTime;
+        Vector3 result = Position;
+        if (!IsDrunk) result += SetTrembling();
 
-        driftVelocity -= driftVelocity * DriftFriction * Time.deltaTime;
-
-        transform.position += driftVelocity * Time.deltaTime;
+        transform.position = Vector3.Lerp(transform.position, result, FollowSpeed * Time.deltaTime);
     }
 
 
