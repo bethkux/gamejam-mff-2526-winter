@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5635080820365340754}
   - component: {fileID: 2489325232106671250}
-  - component: {fileID: 7135429795744994460}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -91,15 +90,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7135429795744994460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4210962912963503994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 726dda868f7ef854ca76c7f8944434bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Ball
