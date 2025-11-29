@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngineInternal;
@@ -65,6 +66,9 @@ public class HandMovement : MonoBehaviour
 
     void Update()
     {
+        Cups = SwapManager.Instance.Cups;
+        Cups = Cups.OrderBy(cup => cup.transform.position.x).ToList();
+        
         switch (MovementState)
         {
             case State.FreelyControllable:
@@ -84,8 +88,14 @@ public class HandMovement : MonoBehaviour
         //MovementState = State.NotControllable;
         transform.position = HidePosition;
         Position = transform.position;
-        //RevealHand();
+        RevealHand();
         //transform.position = Cups[0].gameObject.transform.position;
+        
+        Cups = SwapManager.Instance.Cups;
+        if (Cups.Count <= 0)
+        {
+            Debug.LogError("No Cupsss????");
+        }
     }
 
 
@@ -112,14 +122,30 @@ public class HandMovement : MonoBehaviour
             idx = (Cups.Count - 1) / 2;
 
         var keyboard = UnityEngine.InputSystem.Keyboard.current;
-        if (keyboard.rightArrowKey.wasPressedThisFrame) idx++;
-        if (keyboard.leftArrowKey.wasPressedThisFrame) idx--;
+        if (keyboard.rightArrowKey.wasPressedThisFrame)
+        {
+            idx++;
+            idx = Mathf.Clamp(idx, 0, Cups.Count-1);
+            SetMoveRoutineCup(Cups[idx].gameObject.transform.position);
+        }
 
+        if (keyboard.leftArrowKey.wasPressedThisFrame)
+        {
+            idx--;
+            idx = Mathf.Clamp(idx, 0, Cups.Count-1);
+            SetMoveRoutineCup(Cups[idx].gameObject.transform.position);
+        }
 
-        idx = Mathf.Clamp(idx, 0, Cups.Count-1);
+        if (keyboard.spaceKey.wasPressedThisFrame)
+        {
+            if (SwapManager.Instance.IsBallUnderCup(Cups[idx]))
+            {
+                Debug.Log(Cups[idx].gameObject.name);
+            }
+        }
 
         //transform.position = Cups[idx].gameObject.transform.position;
-        SetMoveRoutineCup(Cups[idx].gameObject.transform.position);
+        //SetMoveRoutineCup(Cups[idx].gameObject.transform.position);
         transform.position = Position;
     }
 
@@ -210,7 +236,7 @@ public class HandMovement : MonoBehaviour
     {
         SetMoveRoutineFree(RevealPosition);
 
-        MovementState = State.FreelyControllable;
+        //MovementState = State.FreelyControllable;
     }
 
 }

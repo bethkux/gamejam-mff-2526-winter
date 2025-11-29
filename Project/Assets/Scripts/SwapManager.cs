@@ -35,6 +35,13 @@ public class SwapManager : MonoBehaviour
     [SerializeField] private UnityEvent OnSwappingFinished = new UnityEvent();
     [SerializeField] private UnityEvent OnRepositionFinished = new UnityEvent();
 
+
+
+    public List<Cup> Cups
+    {
+        get => _cups;
+    }
+
 #if UNITY_EDITOR
     [ContextMenu("Test → Register Cup")]
     public void Editor_RegisterCup() => RegisterCup();
@@ -78,6 +85,8 @@ public class SwapManager : MonoBehaviour
         {
             RegisterCup();
         }
+        
+        
     }
 
     public void PlaceBall()
