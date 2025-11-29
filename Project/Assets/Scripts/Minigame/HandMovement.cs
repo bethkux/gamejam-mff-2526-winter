@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class HandMovement : MonoBehaviour
 {
-    // GENERAL MOUSE MOVEMENT
+    // ---GENERAL MOUSE MOVEMENT---
     [Header("Hand movement")]
-    private Vector3 Position;
+    [HideInInspector] public Vector3 Position;
 
     public State MovementState;
     public bool IsDrunk;
@@ -19,7 +19,7 @@ public class HandMovement : MonoBehaviour
     public float FollowSpeed = 10f;
 
     // ----------------------------------------------------
-    // HIDING/REVEALING
+    // ---HIDING/REVEALING---
     [Header("Hiding/Revealing")]
     public Vector2 RevealPosition;
     public Vector2 HidePosition;
@@ -27,7 +27,7 @@ public class HandMovement : MonoBehaviour
     private Coroutine moveRoutine;
 
     // ----------------------------------------------------
-    // HAND TREMBLING
+    // ---HAND TREMBLING---
     [Header("Hand trembling")]
     [Tooltip("The \"length\" of the shake in X axis")]
     public float ShakingX = 1f;
@@ -41,7 +41,7 @@ public class HandMovement : MonoBehaviour
     private float shakeTimeY;
 
     // ----------------------------------------------------
-    // MOUSE DRIFTING
+    // ---MOUSE DRIFTING---
     [Tooltip("How fast it can get to slide")]
     public float DriftAcceleration = 2f;
     [Tooltip("How fast it slows down")]
@@ -98,7 +98,7 @@ public class HandMovement : MonoBehaviour
             if (move != Vector2.zero)
             {
                 Vector3 dir = new Vector3(move.x, move.y, 0f).normalized / 30;
-                driftVelocity += dir * Speed * DriftAcceleration * Time.deltaTime;
+                driftVelocity += dir * Speed * DriftAcceleration * 1.5f * Time.deltaTime;
             }
             else
             {
@@ -148,23 +148,25 @@ public class HandMovement : MonoBehaviour
         Position = target;
     }
 
+    public void SetMoveRoutine(Vector2 pos)
+    {
+        if (moveRoutine != null)
+            StopCoroutine(moveRoutine);
+
+        moveRoutine = StartCoroutine(MoveTo(pos));
+    }
+
 
     public void HideHand()
     {
         MovementState = State.NotControllable;
 
-        if (moveRoutine != null)
-            StopCoroutine(moveRoutine);
-
-        moveRoutine = StartCoroutine(MoveTo(HidePosition));
+        SetMoveRoutine(HidePosition);
     }
 
     public void RevealHand()
     {
-        if (moveRoutine != null)
-            StopCoroutine(moveRoutine);
-
-        moveRoutine = StartCoroutine(MoveTo(RevealPosition));
+        SetMoveRoutine(RevealPosition);
 
         MovementState = State.KeyControllable;
     }
