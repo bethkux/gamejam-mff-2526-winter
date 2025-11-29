@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5850498193545193586}
-  - component: {fileID: 5926218585863079724}
+  - component: {fileID: 2944931376159563247}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5926218585863079724
+--- !u!114 &2944931376159563247
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,10 +41,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 722886952378931581}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffc42156b911b1d6b8cd6f7fbf6bc8f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c267407d24e19440b5fdf2ae732d55f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerState
   _Cheats:
-  - {fileID: 11400000, guid: cc49594ead0eb586cb8b1540c08b9dbe, type: 2}
-  - {fileID: 11400000, guid: abab6c3e7380b3f9c9722a358b9b3bda, type: 2}
-  - {fileID: 11400000, guid: 0ffe1234732ee2811a47fb99eb664fbe, type: 2}
+  - {fileID: 0}

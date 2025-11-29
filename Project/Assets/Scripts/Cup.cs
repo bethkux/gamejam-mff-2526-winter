@@ -31,8 +31,8 @@ public class Cup : MonoBehaviour
         //Store original sprite
         _sprite =  _spriteRenderer.sprite;
         
-        //DOVirtual.DelayedCall(2f, () => MakeTransparent());
-        //DOVirtual.DelayedCall(3f, () => ResetSprite());
+        DOVirtual.DelayedCall(2f, () => MakeTransparent());
+        DOVirtual.DelayedCall(3f, () => ResetSprite());
     }
     
     public Vector2 GetSize()
