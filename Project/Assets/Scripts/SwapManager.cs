@@ -27,6 +27,7 @@ public class SwapManager : MonoBehaviour
     
     [SerializeField] private List<GameObject> _cupPrefabs = new List<GameObject>();
     [SerializeField] private GameObject _ballPrefab;
+    [SerializeField] private int _cupsToSpawnAtStart = 3;
     [SerializeField] private float _padding = 1.0f;
     [SerializeField] private float _swapTime = 1.0f;
     [Space] [Space] [Space] [Space]
@@ -46,11 +47,7 @@ public class SwapManager : MonoBehaviour
     {
         if (_cups.Count <= 0) return;
         int idx = Random.Range(0, _cups.Count);
-        
-        RevealCup(_cups[idx]).OnComplete(() =>
-        {
-            Debug.Log("Is Ball Under Cup:" + IsBallUnderCup(_cups[idx]));
-        });
+        IsBallUnderCup(_cups[idx]);
     }
     
     [ContextMenu("Test → PlaceBall")]
@@ -65,8 +62,22 @@ public class SwapManager : MonoBehaviour
 
     public void Start()
     {
-        _ball = Instantiate(_ballPrefab, Vector3.zero, Quaternion.identity);
+        if (!_ball)
+        {
+            _ball = Instantiate(_ballPrefab, Vector3.zero, Quaternion.identity);
+        }
         _ball.GetComponent<SpriteRenderer>().enabled = false;
+
+        if (_cupPrefabs.Count <= 0)
+        {
+            Debug.LogError("No cup prefabs found");
+            return;
+        }
+
+        for (int i = 0; i < _cupsToSpawnAtStart; i++)
+        {
+            RegisterCup();
+        }
     }
 
     public void PlaceBall()
@@ -83,6 +94,7 @@ public class SwapManager : MonoBehaviour
             _ball.transform.parent = cup.transform;
         });
     }
+    
 
     public void Swap(int swapCount)
     {
@@ -91,6 +103,7 @@ public class SwapManager : MonoBehaviour
 
     public void RegisterCup()
     {
+        
         int idx = Random.Range(0, _cupPrefabs.Count);
         GameObject cupInstance = Instantiate(_cupPrefabs[idx], Vector3.zero, Quaternion.identity);
 
@@ -110,7 +123,7 @@ public class SwapManager : MonoBehaviour
         RemoveCup(_cups[idx]);
     }
 
-    public Sequence RevealCup(Cup cup, float delay = 0.5f)
+    private Sequence RevealCup(Cup cup, float delay = 0.5f)
     {
         Sequence seq = DOTween.Sequence();
 
@@ -132,7 +145,21 @@ public class SwapManager : MonoBehaviour
 
     public bool IsBallUnderCup(Cup cup)
     {
-        return cup.transform.childCount == 1;
+        bool isUnder = cup.transform.childCount == 1;
+        if (isUnder)
+        {
+            // Detach child from cup
+            Transform child = cup.transform.GetChild(0);
+            child.SetParent(null); 
+        } 
+        
+        RevealCup(cup, 1.0f).OnComplete(() =>
+        {
+            JitterHorizontal(transform);
+            _ball.transform.parent = cup.transform;
+        });
+
+        return isUnder;
     }
 
     private void RegisterCup(Cup cup)

@@ -16,8 +16,7 @@ public class PlayerState : MonoBehaviour
 
     private int _CheatsUsed;
     public int CheatsUsed { get => _CheatsUsed; }
-
-
+    
     private void Awake()
     {
         if (_Instance == null)
@@ -27,13 +26,11 @@ public class PlayerState : MonoBehaviour
         
         DontDestroyOnLoad(this);
     }
-    
 
     private void Start()
     {
         StartCoroutine(TestCheatSpawn());
     }
-
 
     private IEnumerator TestCheatSpawn()
     {

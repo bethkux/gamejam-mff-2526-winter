@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4822298068182695102}
   - component: {fileID: -4057239126618482063}
-  - component: {fileID: 4165926672000064272}
+  - component: {fileID: 2870388550107548889}
   m_Layer: 0
-  m_Name: Cup
+  m_Name: Boner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,8 +79,8 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
-  m_Sprite: {fileID: 9103656482713568619, guid: 2d5b0f476f100a347a50f53bf55ee172, type: 3}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: -1483407423975865499, guid: 6e71b046badedd34e8e2330b58252302, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -91,7 +91,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4165926672000064272
+--- !u!114 &2870388550107548889
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,8 +100,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4040637935451895686}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a71b31525687fc45a62278f7d90cbcf, type: 3}
+  m_Script: {fileID: 11500000, guid: 782aaf388730484d948816bd365d1784, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Cup
-  _spriteRenderer: {fileID: -4057239126618482063}
-  _transparentSprite: {fileID: 2176961346935410278, guid: 1663c9e48b00cd74b907fd16027e7122, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteSequenceManager
+  spriteRenderer: {fileID: -4057239126618482063}
+  frames:
+  - {fileID: -1483407423975865499, guid: 6e71b046badedd34e8e2330b58252302, type: 3}
+  - {fileID: -8321102221490951993, guid: e415fbf07abeeb94aa963c95318ee2eb, type: 3}
+  - {fileID: 7417498029127908629, guid: 94f8fa53f20bd8745a043addbdf1b169, type: 3}
+  - {fileID: 545875093725613961, guid: 5b0d24200c8a47144a3462af5e078330, type: 3}
