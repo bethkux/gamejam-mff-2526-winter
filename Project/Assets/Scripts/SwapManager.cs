@@ -85,7 +85,7 @@ public class SwapManager : MonoBehaviour
         Cup cup = _cups[Random.Range(0, _cups.Count)];
         
         Vector3 startPos = cup.transform.position;
-        _ball.transform.position = startPos -  new Vector3(0f, 1.3f, 0f);
+        _ball.transform.position = startPos -  new Vector3(0f, 1f, 0f);
         _ball.GetComponent<SpriteRenderer>().enabled = true;
         
         RevealCup(cup, 1.0f).OnComplete(() =>
