@@ -198,10 +198,9 @@ public class SwapManager : MonoBehaviour
         return eases[index];
     }
     
-    private void Bounce(Transform t)
+    private Tween Bounce(Transform t)
     {
-        t.DOPunchScale(new Vector3(0.08f, 0.08f, 0f), 0.15f, 6, 0.25f);
-
+       return t.DOPunchScale(new Vector3(0.08f, 0.08f, 0f), 0.15f, 6, 0.25f);
     }
     
     private Tween JitterHorizontal(Transform t, float strength = 0.08f, float duration = 0.15f)

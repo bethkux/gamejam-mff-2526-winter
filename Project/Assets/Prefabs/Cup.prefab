@@ -104,3 +104,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cup
   _spriteRenderer: {fileID: -4057239126618482063}
+  _transparentSprite: {fileID: 2176961346935410278, guid: b57b8d53bce32824e9216e486c3c5161, type: 3}
