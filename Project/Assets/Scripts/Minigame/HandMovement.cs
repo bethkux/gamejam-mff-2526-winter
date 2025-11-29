@@ -1,5 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngineInternal;
 
 public class HandMovement : MonoBehaviour
 {
@@ -17,6 +20,9 @@ public class HandMovement : MonoBehaviour
     [Range(0f, 20f)]
     [Tooltip("Changes the \"lag\" behind the movement")]
     public float FollowSpeed = 10f;
+
+    public List<Cup> Cups = new List<Cup>();
+    int idx = -1;
 
     // ----------------------------------------------------
     // ---HIDING/REVEALING---
@@ -42,6 +48,7 @@ public class HandMovement : MonoBehaviour
 
     // ----------------------------------------------------
     // ---MOUSE DRIFTING---
+    [Header("Mouse drifting")]
     [Tooltip("How fast it can get to slide")]
     public float DriftAcceleration = 2f;
     [Tooltip("How fast it slows down")]
@@ -51,16 +58,20 @@ public class HandMovement : MonoBehaviour
 
     public enum State
     {
-        KeyControllable,
-        NotControllable
+        FreelyControllable,
+        NotControllable,
+        BoundToCups
     }
 
     void Update()
     {
         switch (MovementState)
         {
-            case State.KeyControllable:
-                SetPosition();
+            case State.FreelyControllable:
+                SetFreePosition();
+                break;
+            case State.BoundToCups:
+                SetCupPosition();
                 break;
             default:
                 break;
@@ -69,14 +80,16 @@ public class HandMovement : MonoBehaviour
 
     private void Start()
     {
-        MovementState = State.NotControllable;
+
+        //MovementState = State.NotControllable;
         transform.position = HidePosition;
         Position = transform.position;
-        RevealHand();
+        //RevealHand();
+        //transform.position = Cups[0].gameObject.transform.position;
     }
 
 
-    void SetPosition()
+    void SetFreePosition()
     {
         Vector2 move = Vector2.zero;
 
@@ -86,11 +99,32 @@ public class HandMovement : MonoBehaviour
         if (keyboard.rightArrowKey.isPressed) move.x += Speed;
         if (keyboard.leftArrowKey.isPressed) move.x -= Speed;
 
-        Control(move, IsDrunk);
+        FreeControl(move, IsDrunk);
+    }
+
+    void SetCupPosition()
+    {
+        if (Cups.Count <= 0)
+            return;
+
+
+        if (idx < 0 || idx > Cups.Count-1)
+            idx = (Cups.Count - 1) / 2;
+
+        var keyboard = UnityEngine.InputSystem.Keyboard.current;
+        if (keyboard.rightArrowKey.wasPressedThisFrame) idx++;
+        if (keyboard.leftArrowKey.wasPressedThisFrame) idx--;
+
+
+        idx = Mathf.Clamp(idx, 0, Cups.Count-1);
+
+        //transform.position = Cups[idx].gameObject.transform.position;
+        SetMoveRoutineCup(Cups[idx].gameObject.transform.position);
+        transform.position = Position;
     }
 
 
-    void Control(Vector2 move, bool is_drunk)
+    void FreeControl(Vector2 move, bool is_drunk)
     {
         if (is_drunk)
         {
@@ -130,14 +164,14 @@ public class HandMovement : MonoBehaviour
         return new Vector3(x * ShakingX, y * ShakingY, 0f);
     }
 
-    IEnumerator MoveTo(Vector2 target)
+    IEnumerator MoveTo(Vector2 target, float speed)
     {
         Vector3 start = Position;
         float t = 0f;
 
         while (t < 1f)
         {
-            t += Time.deltaTime * HideSpeed;
+            t += Time.deltaTime * speed;
 
             float eased = Mathf.SmoothStep(0f, 1f, t);
 
@@ -148,12 +182,20 @@ public class HandMovement : MonoBehaviour
         Position = target;
     }
 
-    public void SetMoveRoutine(Vector2 pos)
+    public void SetMoveRoutineFree(Vector2 pos)
     {
         if (moveRoutine != null)
             StopCoroutine(moveRoutine);
 
-        moveRoutine = StartCoroutine(MoveTo(pos));
+        moveRoutine = StartCoroutine(MoveTo(pos, HideSpeed));
+    }
+
+    public void SetMoveRoutineCup(Vector2 pos)
+    {
+        if (moveRoutine != null)
+            StopCoroutine(moveRoutine);
+
+        moveRoutine = StartCoroutine(MoveTo(pos, 10));
     }
 
 
@@ -161,14 +203,14 @@ public class HandMovement : MonoBehaviour
     {
         MovementState = State.NotControllable;
 
-        SetMoveRoutine(HidePosition);
+        SetMoveRoutineFree(HidePosition);
     }
 
     public void RevealHand()
     {
-        SetMoveRoutine(RevealPosition);
+        SetMoveRoutineFree(RevealPosition);
 
-        MovementState = State.KeyControllable;
+        MovementState = State.FreelyControllable;
     }
 
 }
