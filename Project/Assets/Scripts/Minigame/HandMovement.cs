@@ -5,8 +5,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngineInternal;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class HandMovement : MonoBehaviour
 {
+
+    private static HandMovement _Instance;
+    public static HandMovement Instance { get => _Instance; }
+
+
     // ---GENERAL MOUSE MOVEMENT---
     [Header("Hand movement")]
     [HideInInspector] public Vector3 Position;
@@ -56,6 +62,12 @@ public class HandMovement : MonoBehaviour
     public float DriftFriction = 4f;
     private Vector3 driftVelocity;
 
+    public Sprite[] HandShapes_Normal;
+    public Sprite[] HandShapes_Minigame;
+
+    private Sprite ActiveHandShape_Normal;
+    private Sprite ActiveHandShape_Minigame;
+
 
     public enum State
     {
@@ -63,6 +75,17 @@ public class HandMovement : MonoBehaviour
         NotControllable,
         BoundToCups
     }
+
+
+    private void Awake()
+    {
+        if (_Instance && _Instance != this)
+            Destroy(_Instance.gameObject);
+
+        _Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
 
     void Update()
     {
@@ -240,4 +263,23 @@ public class HandMovement : MonoBehaviour
 
         //MovementState = State.FreelyControllable;
     }
+
+    public void ChangeState(State movementState)
+    {
+        MovementState = movementState;
+
+        if (movementState == State.BoundToCups)
+            GetComponent<SpriteRenderer>().sprite = ActiveHandShape_Normal;
+        else if (movementState == State.FreelyControllable)
+            GetComponent<SpriteRenderer>().sprite = ActiveHandShape_Minigame;
+    }
+
+
+    public void SetHandNormalImage(int index)
+        => ActiveHandShape_Normal = HandShapes_Normal[index];
+
+
+    public void SetHandMinigameImage(int index)
+        => ActiveHandShape_Minigame = HandShapes_Minigame[index];
+
 }
