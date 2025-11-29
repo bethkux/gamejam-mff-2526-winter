@@ -19,37 +19,36 @@ public class SwapManager : MonoBehaviour
     [SerializeField] private UnityEvent OnSwappingFinished = new UnityEvent();
     [SerializeField] private UnityEvent OnRepositionFinished = new UnityEvent();
     
+    
+#if UNITY_EDITOR
+    [ContextMenu("Test → Register Cup")]
+    public void Editor_RegisterCup()
+    {
+        RegisterCup();
+    }
+
+    [ContextMenu("Test → Swap Cups")]
+    public void Editor_Swap()
+    {
+        Swap(_cups.Count);
+    }
+
+    [ContextMenu("Test → Reveal Random Cup")]
+    public void Editor_RevealCup()
+    {
+        if (_cups.Count > 0)
+            RevealCup(_cups[Random.Range(0, _cups.Count)]);
+    }
+#endif
+
+    
     private float _totalWidth = 0.0f;
     private List<Cup> _cups = new List<Cup>();
     private int _activeRepositionTweens = 0;
     private bool _isSwapping = false;
-
-    //private int i = 0;
-    //public void Start()
-    //{
-    //    OnRepositionFinished?.AddListener(test);
-    //    RegisterCup();
-    //    OnSwappingFinished.AddListener(remmovee);
-    //}
-    //
-    //public void test()
-    //{
-    //    if (i < 2)
-    //    {
-    //        RegisterCup();
-    //    }
-    //    else if (i == 2)
-    //    {
-    //       Swap(_cups.Count);
-    //    }
-    //    //else
-    //    //{
-    //    //    OnRepositionFinished?.RemoveAllListeners();
-    //    //}
-    //
-    //    ++i;
-    //
-    //}
+    
+    
+    
     
     public void Swap(int swapCount)
     {
@@ -74,12 +73,54 @@ public class SwapManager : MonoBehaviour
         
         RegisterCup(cup);
     }
+    
     public void RemoveCup()
     {
         // Get random index of cup
         int idx =  Random.Range(0, _cups.Count);
         RemoveCup(_cups[idx]);
     }
+
+    public void RevealCup(Cup cup)
+    {
+        Sequence seq = DOTween.Sequence();
+
+        Vector3 startPos = cup.transform.position;
+        Quaternion startRot = cup.transform.rotation;
+
+        // Reveal target position & rotation
+        Vector3 targetPos = startPos + new Vector3(0.5f, 1.5f, 0f);
+        Quaternion targetRot = startRot * Quaternion.Euler(0, 0, -25);
+
+        
+        seq.Append(
+            cup.transform.DOMove(targetPos, 0.3f)
+                .SetEase(Ease.OutBack)
+        );
+        seq.Join(
+            cup.transform.DORotateQuaternion(targetRot, 0.3f)
+                .SetEase(Ease.OutBack)
+        );
+        
+        seq.Append(
+            cup.transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0), 0.2f, 6, 0.25f)
+        );
+
+        // Wait before lowering the cup back
+        seq.AppendInterval(0.5f);
+
+        // Move back down & rotate back to original
+        seq.Append(
+            cup.transform.DOMove(startPos, 0.25f)
+                .SetEase(Ease.InOutQuad)
+        );
+        seq.Join(
+            cup.transform.DORotateQuaternion(startRot, 0.25f)
+                .SetEase(Ease.InOutQuad)
+        );
+    }
+
+        
     private void RegisterCup(Cup cup)
     {
         _cups.Add(cup);
@@ -88,7 +129,6 @@ public class SwapManager : MonoBehaviour
         TweenRepositionAllCups();
         Bounce(cup.transform);
     }
-
     
     private void RemoveCup(Cup cup)
     {
@@ -119,7 +159,7 @@ public class SwapManager : MonoBehaviour
         foreach (Cup c in _cups)
             _totalWidth += c.GetSize().x + _padding;
     }
-
+    
     private void TweenRepositionAllCups() 
     {
         if (_cups.Count == 0) return; 
@@ -145,7 +185,7 @@ public class SwapManager : MonoBehaviour
             });
             cupPosition += width + _padding;
         } }
-
+    
     private Ease GetRandomEase()
     {
         Ease[] eases =
@@ -157,7 +197,7 @@ public class SwapManager : MonoBehaviour
         int index = Random.Range(0, eases.Length);
         return eases[index];
     }
-
+    
     private void Bounce(Transform t)
     {
         t.DOPunchScale(new Vector3(0.08f, 0.08f, 0f), 0.15f, 6, 0.25f);
@@ -168,7 +208,7 @@ public class SwapManager : MonoBehaviour
     {
         return t.DOShakePosition(duration, new Vector3(strength, 0, 0), 20, 100);
     }
-
+    
     private IEnumerator SwapRoutine(int swapCount)
     {
         if (_cups.Count <= 1 || _isSwapping)
@@ -190,7 +230,6 @@ public class SwapManager : MonoBehaviour
         _isSwapping = false;
         OnSwappingFinished?.Invoke();
     }
-    
     
     private IEnumerator SwapCupsRoutine(Cup a, Cup b)
     {
