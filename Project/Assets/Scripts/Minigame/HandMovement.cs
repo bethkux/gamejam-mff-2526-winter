@@ -84,17 +84,21 @@ public class HandMovement : MonoBehaviour
 
     private void Start()
     {
-
-        //MovementState = State.NotControllable;
         transform.position = HidePosition;
         Position = transform.position;
         RevealHand();
-        //transform.position = Cups[0].gameObject.transform.position;
+        
         
         Cups = SwapManager.Instance.Cups;
         if (Cups.Count <= 0)
         {
             Debug.LogError("No Cupsss????");
+            //SwapManager.Instance.Start();
+        }
+        else
+        {
+            if (MovementState is State.BoundToCups)
+                SetCupPosition();
         }
     }
 
@@ -144,8 +148,6 @@ public class HandMovement : MonoBehaviour
             }
         }
 
-        //transform.position = Cups[idx].gameObject.transform.position;
-        //SetMoveRoutineCup(Cups[idx].gameObject.transform.position);
         transform.position = Position;
     }
 
@@ -238,5 +240,4 @@ public class HandMovement : MonoBehaviour
 
         //MovementState = State.FreelyControllable;
     }
-
 }

@@ -532,6 +532,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2346767925597738781, guid: 870662e15e81cb345a7beb2d0a022bdc, type: 3}
+      propertyPath: RevealPosition.y
+      value: -4
+      objectReference: {fileID: 0}
     - target: {fileID: 2418719770873771303, guid: 870662e15e81cb345a7beb2d0a022bdc, type: 3}
       propertyPath: m_Name
       value: Hand
