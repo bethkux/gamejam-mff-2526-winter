@@ -47,7 +47,7 @@ public class ObservingMinigame : MonoBehaviour
     {
         sr = GetComponent<SpriteRenderer>();
         if (HandMovement == null)
-            Debug.LogError("ObservingMiniggame: Missing Hand reference!");
+            Debug.LogError("ObservingMinigame: Missing Hand reference!");
 
         ObservingState = State.NotObserving;
         UpdateTimers();
@@ -143,12 +143,14 @@ public class ObservingMinigame : MonoBehaviour
     {
         ObservingState = State.Observing;
         sr.sprite = OpenEye;
+        transform.localScale = Vector3.one * 0.8f;
     }
 
     void StopObservingVisual()
     {
         ObservingState = State.NotObserving;
         sr.sprite = CloseEye;
+        transform.localScale = Vector3.one * 0.6f;
     }
 
     void OnPlayerMovedWhileObserving()

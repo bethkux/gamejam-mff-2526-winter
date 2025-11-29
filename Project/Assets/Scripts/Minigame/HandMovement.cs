@@ -89,8 +89,12 @@ public class HandMovement : MonoBehaviour
 
     void Update()
     {
-        Cups = SwapManager.Instance.Cups;
-        Cups = Cups.OrderBy(cup => cup.transform.position.x).ToList();
+        if (MovementState is State.BoundToCups)
+        {
+            Cups = SwapManager.Instance.Cups;
+            Cups = Cups.OrderBy(cup => cup.transform.position.x).ToList();
+        }
+
         
         switch (MovementState)
         {
@@ -110,9 +114,10 @@ public class HandMovement : MonoBehaviour
         transform.position = HidePosition;
         Position = transform.position;
         RevealHand();
-        
-        
-        Cups = SwapManager.Instance.Cups;
+
+        if (MovementState is State.BoundToCups)
+            Cups = SwapManager.Instance.Cups;
+
         if (Cups.Count <= 0)
         {
             Debug.LogError("No Cupsss????");
@@ -126,15 +131,17 @@ public class HandMovement : MonoBehaviour
     }
 
 
+
+
     void SetFreePosition()
     {
         Vector2 move = Vector2.zero;
 
         var keyboard = UnityEngine.InputSystem.Keyboard.current;
-        if (keyboard.upArrowKey.isPressed) move.y += Speed;
-        if (keyboard.downArrowKey.isPressed) move.y -= Speed;
-        if (keyboard.rightArrowKey.isPressed) move.x += Speed;
-        if (keyboard.leftArrowKey.isPressed) move.x -= Speed;
+        if (keyboard.upArrowKey.isPressed || keyboard.wKey.isPressed) move.y += Speed;
+        if (keyboard.downArrowKey.isPressed || keyboard.sKey.isPressed) move.y -= Speed;
+        if (keyboard.rightArrowKey.isPressed || keyboard.dKey.isPressed) move.x += Speed;
+        if (keyboard.leftArrowKey.isPressed || keyboard.aKey.isPressed) move.x -= Speed;
 
         FreeControl(move, IsDrunk);
     }
@@ -149,14 +156,14 @@ public class HandMovement : MonoBehaviour
             idx = (Cups.Count - 1) / 2;
 
         var keyboard = UnityEngine.InputSystem.Keyboard.current;
-        if (keyboard.rightArrowKey.wasPressedThisFrame)
+        if (keyboard.rightArrowKey.wasPressedThisFrame || keyboard.dKey.wasPressedThisFrame)
         {
             idx++;
             idx = Mathf.Clamp(idx, 0, Cups.Count-1);
             SetMoveRoutineCup(Cups[idx].gameObject.transform.position);
         }
 
-        if (keyboard.leftArrowKey.wasPressedThisFrame)
+        if (keyboard.leftArrowKey.wasPressedThisFrame || keyboard.aKey.wasPressedThisFrame)
         {
             idx--;
             idx = Mathf.Clamp(idx, 0, Cups.Count-1);
