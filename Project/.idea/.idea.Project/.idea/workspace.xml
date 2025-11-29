@@ -168,7 +168,7 @@
       <option name="presentableId" value="Default" />
       <updated>1764355509660</updated>
       <workItem from="1764355510769" duration="533000" />
-      <workItem from="1764356344631" duration="38986000" />
+      <workItem from="1764356344631" duration="45154000" />
     </task>
     <servers />
   </component>
@@ -212,19 +212,6 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/Minigame/HandMovement.cs</url>
-          <line>132</line>
-          <properties documentPath="C:\Users\fende\Documents\gamejam-mff-2526-winter\Project\Assets\Scripts\Minigame\HandMovement.cs" containingFunctionPresentation="Method 'SetCupPosition'">
-            <startOffsets>
-              <option value="3574" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3633" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

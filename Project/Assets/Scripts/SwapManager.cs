@@ -21,8 +21,7 @@ public class SwapManager : MonoBehaviour
 
         Instance = this;
         Init();
-
-        // Optional:
+        
         DontDestroyOnLoad(gameObject);
     }
     
@@ -68,7 +67,6 @@ public class SwapManager : MonoBehaviour
     private bool _isCheckingCup = false;
     private GameObject _ball;
     
-
     public void Init()
     {
         if (!_ball)
@@ -83,10 +81,19 @@ public class SwapManager : MonoBehaviour
             return;
         }
 
+        _isCheckingCup = true;
+        OnRepositionFinished.AddListener(InitBall);
         for (int i = 0; i < _cupsToSpawnAtStart; i++)
         {
             RegisterCup();
         }
+    }
+
+    private void InitBall()
+    {
+        DOVirtual.DelayedCall(3f, () => PlaceBall());
+        OnRepositionFinished.RemoveListener(InitBall);
+        _isCheckingCup = false;
     }
 
     public void PlaceBall()
