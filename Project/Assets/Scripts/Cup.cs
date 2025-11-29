@@ -17,6 +17,11 @@ public class Cup : MonoBehaviour
     }
 #endif
 
+    void OnMouseDown()
+    {
+      
+    }
+    
     private void Start()
     {
         if (_spriteRenderer == null)
@@ -34,6 +39,7 @@ public class Cup : MonoBehaviour
         DOVirtual.DelayedCall(2f, () => MakeTransparent());
         DOVirtual.DelayedCall(3f, () => ResetSprite());
     }
+    
     
     public Vector2 GetSize()
     {
@@ -82,5 +88,4 @@ public class Cup : MonoBehaviour
             );
         });
     }
-
 }
