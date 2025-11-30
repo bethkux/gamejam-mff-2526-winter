@@ -11,6 +11,8 @@ public class Shot : MonoBehaviour
 
     void Start()
     {
+        AudioController.Instance.PlayTableSlideIn();
+
         transform.position = StartPosition;
         transform.DOMove(EndPosition, Duration)
                  .SetEase(Ease.OutCubic);
