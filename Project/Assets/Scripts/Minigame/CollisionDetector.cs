@@ -4,13 +4,15 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngineInternal;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class CollisionDetector : MonoBehaviour
 {
-
     public SpriteRenderer Up;
     public SpriteRenderer Down;
     public GameObject Other;
+    [SerializeField] UnityEvent OnSucces;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -38,8 +40,9 @@ public class CollisionDetector : MonoBehaviour
         }
         else if (other.name == "Other")
         {
+            OnSucces.Invoke();
             // Scene transition
-            Debug.Log("Success");
+            SwapManager.Instance.OnMiniGameSucces();
         }
     }
 }

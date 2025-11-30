@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class SwapManager : MonoBehaviour
@@ -58,6 +59,12 @@ public class SwapManager : MonoBehaviour
     
     [ContextMenu("Test → PlaceBall")]
     public void Editor_PlaceBall() => PlaceBall();
+    
+    [ContextMenu("Test → Make Cheatable")]
+    public void Editor_MakeCheatable() => MakeRandomCupCheatable();
+    
+    [ContextMenu("Test → Remove Cheatable")]
+    public void Editor_RemoveCheatable() => RemoveCheatableCup();
 #endif
 
     private float _totalWidth = 0.0f;
@@ -123,10 +130,22 @@ public class SwapManager : MonoBehaviour
         _isCheckingCup = false;
     }
 
-    public void PlaceBall()
+    public void OnMiniGameSucces()
     {
-        Cup cup = _cups[Random.Range(0, _cups.Count)];
+        Scene minigame = SceneManager.GetSceneByName("Minigame");
+        if (minigame == SceneManager.GetActiveScene())
+        {
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName("MainScene"));
+        }
+        SceneManager.UnloadSceneAsync(minigame);
         
+        
+        _cheatableCup.ActivateCheat();
+        RemoveAllCups();
+    }
+    
+    public void PlaceBall(Cup cup)
+    {
         Vector3 startPos = cup.transform.position;
         _ball.transform.position = startPos -  new Vector3(0f, 1f, 0f);
         _ball.GetComponent<SpriteRenderer>().enabled = true;
@@ -136,6 +155,12 @@ public class SwapManager : MonoBehaviour
             JitterHorizontal(transform);
             _ball.transform.parent = cup.transform;
         });
+    }
+
+    public void PlaceBall()
+    { 
+        Cup cup = _cups[Random.Range(0, _cups.Count)];
+        PlaceBall(cup);
     }
     
     public IEnumerator Swap(int swapCount)

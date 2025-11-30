@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,9 +9,10 @@ public class Cup : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private Sprite _transparentSprite;
+    
+    private List<Action> _cheats = new List<Action>();
     private Sprite _sprite;
     private bool _isClickable = false;
-    
     public bool IsClickable
     {
         get => _isClickable;
@@ -25,12 +27,27 @@ public class Cup : MonoBehaviour
     }
 #endif
 
+    void Awake()
+    {
+        _cheats.Clear();
+        _cheats.Add(() => MakeTransparent());
+        _cheats.Add(() => PlaceBall());
+    }
+
     void OnMouseDown()
     {
-        if(_isClickable)  SceneManager.LoadScene("Minigame");
+        if(!_isClickable) return;
+        //Glitch();
+        
+        SceneManager.LoadScene("Minigame",  LoadSceneMode.Additive);
     }
-    
-    
+
+    public void ActivateCheat()
+    {
+        // Select Random Cheat
+        _cheats[Random.Range(0, _cheats.Count)]?.Invoke();
+    }
+
     private void Start()
     {
         if (_spriteRenderer == null)
@@ -50,7 +67,6 @@ public class Cup : MonoBehaviour
         DOVirtual.DelayedCall(3f, () => ResetSprite());
     }
     
-    
     public Vector2 GetSize()
     {
         return new Vector2(_spriteRenderer.bounds.size.x, _spriteRenderer.bounds.size.y);
@@ -60,13 +76,17 @@ public class Cup : MonoBehaviour
     {
         _spriteRenderer.sprite = _transparentSprite;
         Glitch();
-        
     }
 
     public void ResetSprite()
     {
         _spriteRenderer.sprite = _sprite;
         Glitch();
+    }
+
+    public void PlaceBall()
+    {
+        SwapManager.Instance.PlaceBall(this);
     }
 
     private void Glitch()

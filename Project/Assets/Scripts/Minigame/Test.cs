@@ -19,8 +19,19 @@ public class Test : MonoBehaviour
 
             Collider2D col = Physics2D.OverlapPoint(mouseWorldPos);
             if (col != null && col.gameObject == gameObject)
-            {
-                SceneManager.LoadScene(scene);
+            {     
+                if(scene == "Minigame")
+                    SceneManager.LoadScene("Minigame", LoadSceneMode.Additive);
+                else
+                {
+                    Scene minigame = SceneManager.GetSceneByName("Minigame");
+                    if (minigame == SceneManager.GetActiveScene())
+                    {
+                        SceneManager.SetActiveScene(SceneManager.GetSceneByName("MainScene"));
+                    }
+                    SceneManager.UnloadSceneAsync(minigame);
+                }
+
             }
         }
     }
