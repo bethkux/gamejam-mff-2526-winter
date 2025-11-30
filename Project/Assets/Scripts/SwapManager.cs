@@ -110,7 +110,6 @@ public class SwapManager : MonoBehaviour
 
     private void InitBall()
     {
-        DOVirtual.DelayedCall(3f, () => PlaceBall());
         OnRepositionFinished.RemoveListener(InitBall);
         _isCheckingCup = false;
     }
