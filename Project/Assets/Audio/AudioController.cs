@@ -17,6 +17,11 @@ public class AudioController : MonoBehaviour
 
     public AudioSource CupReveal;
 
+    public AudioSource GlassSlidingOnWood;
+
+    public AudioSource HeartBeatSingle;
+
+    public AudioSource HeartBeatLong;
 
     private void Awake()
     {
@@ -65,5 +70,30 @@ public class AudioController : MonoBehaviour
     public void PlayCupReveal()
     {
         CupReveal.Play();
+    }
+
+    public void PlayGlassSliding()
+    {
+        GlassSlidingOnWood.Play();
+    }
+
+    public void PlayHeartbeatSingle()
+    {
+        HeartBeatSingle.Play();
+    }
+
+    public void StopHeartbeatSingle()
+    {
+        HeartBeatSingle.Stop();
+    }
+
+    public void PlayHeartbeatLong()
+    {
+        HeartBeatLong.Play();
+    }
+
+    public void StopHeartbeatLong()
+    {
+        HeartBeatLong.Stop();
     }
 }

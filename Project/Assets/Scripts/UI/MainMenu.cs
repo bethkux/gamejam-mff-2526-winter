@@ -21,6 +21,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private GameObject _QuitCupHighlight;
 
+    public GameObject ArrowBack;
+
 
 
     public void HighlightStartCup(bool isOn)
@@ -42,11 +44,24 @@ public class MainMenu : MonoBehaviour
 
     public void ShowCredits()
     {
+        _MenuContainer.interactable = false;
         _MenuContainer.DOFade(0, 0.5f).OnComplete(() =>
         {
             _MenuContainer.gameObject.SetActive(false);
-            _CreditsContainer.gameObject.SetActive(true);     
-            _CreditsContainer.DOFade(1, 0.5f);
+            _CreditsContainer.gameObject.SetActive(true);
+            _CreditsContainer.DOFade(1, 0.5f).OnComplete(() => { _CreditsContainer.interactable = true; ArrowBack.gameObject.SetActive(true); }); 
+        });
+    }
+
+    public void HideCredits()
+    {
+        _CreditsContainer.interactable = false;
+        ArrowBack.gameObject.SetActive(false);
+        _CreditsContainer.DOFade(0, 0.5f).OnComplete(() =>
+        {
+            _CreditsContainer.gameObject.SetActive(false);
+            _MenuContainer.gameObject.SetActive(true);
+            _MenuContainer.DOFade(1, 0.5f).OnComplete(() => { _MenuContainer.interactable = true; });
         });
     }
 
