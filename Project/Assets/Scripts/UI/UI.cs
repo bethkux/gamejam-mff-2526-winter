@@ -27,6 +27,12 @@ public class UI : MonoBehaviour
     [SerializeField]
     private TMP_Text _SpiritText;
 
+    [SerializeField]
+    private Slider _PointsSlider;
+
+    [SerializeField]
+    private CanvasGroup _RedFlash;
+
 
     private void Awake()
     {
@@ -42,6 +48,26 @@ public class UI : MonoBehaviour
     {
         GameObject newIcon = Instantiate(_CheatIconPrefab, _CheatContainer.transform);
         newIcon.GetComponent<Image>().sprite = iconSprite;
+    }
+
+    public void ShowSlider()
+    {
+        _PointsSlider.transform.DOScale(Vector3.one, 0.5f);
+    }
+
+    public void AddPoints(int amount)
+    {
+        _PointsSlider.value += amount;
+    }
+
+
+    public void FlashRed()
+    {
+    }
+
+    public void PulsingRed()
+    {
+        
     }
 
 

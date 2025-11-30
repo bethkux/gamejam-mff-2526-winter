@@ -64,9 +64,6 @@ public class HandMovement : MonoBehaviour
     public Sprite[] HandShapes_Normal;
     public Sprite[] HandShapes_Minigame;
 
-    private Sprite ActiveHandShape_Normal;
-    private Sprite ActiveHandShape_Minigame;
-
 
     public enum State
     {
@@ -271,27 +268,24 @@ public class HandMovement : MonoBehaviour
 
     public void RevealHand()
     {
-        SetMoveRoutineFree(RevealPosition);
-
-        //MovementState = State.FreelyControllable;
+        ChangeState(State.FreelyControllable);
     }
 
     public void ChangeState(State movementState)
     {
         MovementState = movementState;
 
-        if (movementState == State.BoundToCups)
-            GetComponent<SpriteRenderer>().sprite = ActiveHandShape_Normal;
-        else if (movementState == State.FreelyControllable)
-            GetComponent<SpriteRenderer>().sprite = ActiveHandShape_Minigame;
+        //UpdateHandImage();
     }
 
 
-    public void SetHandNormalImage(int index)
-        => ActiveHandShape_Normal = HandShapes_Normal[index];
+    public void UpdateHandImage()
+    {
+        if (MovementState == State.BoundToCups)
+            GetComponent<SpriteRenderer>().sprite = HandShapes_Normal[PlayerState.Instance.Fingers - 1];
+        else if (MovementState == State.FreelyControllable)
+            GetComponent<SpriteRenderer>().sprite = HandShapes_Minigame[PlayerState.Instance.Fingers - 1];
+    }
 
-
-    public void SetHandMinigameImage(int index)
-        => ActiveHandShape_Minigame = HandShapes_Minigame[index];
 
 }

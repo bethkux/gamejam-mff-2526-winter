@@ -238,7 +238,7 @@ public class SwapManager : MonoBehaviour
         _cups.Add(cup);
         RecalculateWidth();
         TweenRepositionAllCups();
-        Bounce(cup.transform);
+        //Bounce(cup.transform);
     }
 
     private void RemoveCup(Cup cup)
@@ -290,7 +290,7 @@ public class SwapManager : MonoBehaviour
                 .SetEase(GetRandomEase())
                 .OnComplete(() =>
                 {
-                    Bounce(c.transform);
+                    //Bounce(c.transform);
                     JitterHorizontal(c.transform);
                     _activeRepositionTweens--;
                     if (_activeRepositionTweens == 0)
@@ -362,8 +362,8 @@ public class SwapManager : MonoBehaviour
 
         yield return DOTween.Sequence().Join(downA).Join(downB).WaitForCompletion();
 
-        Bounce(a.transform);
-        Bounce(b.transform);
+        //Bounce(a.transform);
+        //Bounce(b.transform);
         JitterHorizontal(a.transform);
         JitterHorizontal(b.transform);
     }

@@ -17,7 +17,7 @@ public class PlayerState : MonoBehaviour
     public int CheatsUsed { get => _CheatsUsed; }
 
 
-    private int _Fingers = 5;
+    public int Fingers = 5;
 
     private int _Points = 0;
 
@@ -57,14 +57,27 @@ public class PlayerState : MonoBehaviour
 
     public void LoseFinger()
     {
-        _Fingers--;
-        HandMovement.Instance.SetHandNormalImage(_Fingers);
-        HandMovement.Instance.SetHandMinigameImage(_Fingers);
+        Fingers--;
+
+        UI.Instance.FlashRed();
+
+        HandMovement.Instance.UpdateHandImage();
+
+        if (Fingers == 0)
+            UI.Instance.PulsingRed();
+        
+        if (Fingers == -1)
+            GameState.Instance.Lose();
     }
+
 
     public void GetPoints(int amount)
     {
         _Points += amount;
+        UI.Instance.AddPoints(amount);
+
+        if (_Points == 1000)
+            GameState.Instance.Win();
     }
 
 

@@ -16,6 +16,9 @@ public class GameState : MonoBehaviour
     [SerializeField]
     private GameObject _Boner;
 
+    [SerializeField]
+    private GameObject _Eyeball;
+
     [SerializeField, Range(0, 1)]
     private float _DeathCheatingStartingProbability;
 
@@ -24,6 +27,8 @@ public class GameState : MonoBehaviour
     private bool _IsRoundOne;
 
     public bool _CalloutOpen = false;
+
+    public bool CheatOpen = false;
 
     private float _DeathCheatingProbability;
     private bool _IsDeathCheating = true;
@@ -45,19 +50,6 @@ public class GameState : MonoBehaviour
     private void Start()
     {
         StartCoroutine(SceneProgression());
-
-
-
-
-        // round two
-
-        // ghosts tell you that they will help you beat death
-
-        // you gain the first cheat
-
-        // they tell you to press it if you want to cheat, but be careful that he doesn't catch.
-
-
     }
 
     private IEnumerator SceneProgression()
@@ -82,6 +74,7 @@ public class GameState : MonoBehaviour
         // Boner appears
         AudioController.Instance.PlayDeathLaugh();
         _Boner.GetComponent<SpriteRenderer>().DOFade(1, 1);
+        _Eyeball.GetComponent<SpriteRenderer>().DOFade(1, 1);
 
         yield return new WaitForSeconds(2f);
 
@@ -112,6 +105,7 @@ public class GameState : MonoBehaviour
         yield return new WaitForSeconds(8);
 
         HandMovement.Instance.Init();
+        HandMovement.Instance.ChangeState(HandMovement.State.BoundToCups);
 
         // show tutorial messages (WASD, space to select)
     }
@@ -119,6 +113,8 @@ public class GameState : MonoBehaviour
     private IEnumerator RoundOne()
     {
         _IsRoundOne = true;
+
+        SwapManager.Instance.RemoveAllCups();
 
         SwapManager.Instance.Init();
 
@@ -141,6 +137,7 @@ public class GameState : MonoBehaviour
         yield return new WaitForSeconds(10);
 
         _CalloutOpen = true;
+        Debug.Log(_CalloutOpen);
         yield return SwapManager.Instance.Swap(SwapManager.Instance.Cups.Count);
     }
 
@@ -148,6 +145,18 @@ public class GameState : MonoBehaviour
     private IEnumerator RoundTwo()
     {
         yield return null;
+
+
+
+        // round two
+
+        // ghosts tell you that they will help you beat death
+
+        // you gain the first cheat
+
+        // they tell you to press it if you want to cheat, but be careful that he doesn't catch.
+
+
     }
 
     private IEnumerator Round()
@@ -158,6 +167,8 @@ public class GameState : MonoBehaviour
 
     public IEnumerator CorrectCupSelected()
     {
+        HandMovement.Instance.ChangeState(HandMovement.State.NotControllable);
+
         if (_IsInTutorial)
         {
             UI.Instance.PlayDeathDialogue(Dialgoues.TUTORIAL_CORRECT_GUESS, false);
@@ -238,6 +249,11 @@ public class GameState : MonoBehaviour
         // switch to normal scene
     }
 
+    public void Win()
+    {
+        
+    }
 
+    public void Lose() {}
 
 }

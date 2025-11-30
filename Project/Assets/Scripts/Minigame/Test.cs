@@ -10,7 +10,7 @@ public class Test : MonoBehaviour
 
     void Update()
     {
-        if (Pointer.current == null) return;
+        if (Pointer.current == null || !GameState.Instance.CheatOpen) return;
 
         if (Pointer.current.press.wasPressedThisFrame)
         {
