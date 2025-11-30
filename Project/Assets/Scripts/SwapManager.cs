@@ -90,6 +90,24 @@ public class SwapManager : MonoBehaviour
         }
     }
 
+    public void MakeRandomCupCheatable()
+    {
+        // Get random cup
+        Cup cup = _cups[Random.Range(0, _cups.Count)];
+        cup.IsClickable = true;
+        
+        // Enable particles
+        cup.GetComponent<ParticleSystem>().Play();
+    }
+
+    public void RemoveAllCups()
+    {
+        foreach (Cup cup in _cups)
+        {
+            RemoveCup(cup);
+        }
+    }
+
     private void InitBall()
     {
         DOVirtual.DelayedCall(3f, () => PlaceBall());

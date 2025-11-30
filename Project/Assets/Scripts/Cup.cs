@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class Cup : MonoBehaviour
@@ -8,7 +9,14 @@ public class Cup : MonoBehaviour
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private Sprite _transparentSprite;
     private Sprite _sprite;
+    private bool _isClickable = false;
     
+    public bool IsClickable
+    {
+        get => _isClickable;
+        set => _isClickable = value;
+    }
+
 #if UNITY_EDITOR
     [ContextMenu("Test → Make Transparent")]
     public void Editor_MakeTransparent()
@@ -19,8 +27,9 @@ public class Cup : MonoBehaviour
 
     void OnMouseDown()
     {
-      
+        if(_isClickable)  SceneManager.LoadScene("Minigame");
     }
+    
     
     private void Start()
     {
@@ -35,6 +44,7 @@ public class Cup : MonoBehaviour
         
         //Store original sprite
         _sprite =  _spriteRenderer.sprite;
+        GetComponent<ParticleSystem>().Stop();
         
         DOVirtual.DelayedCall(2f, () => MakeTransparent());
         DOVirtual.DelayedCall(3f, () => ResetSprite());
