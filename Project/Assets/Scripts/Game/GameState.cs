@@ -23,7 +23,7 @@ public class GameState : MonoBehaviour
 
     private bool _IsRoundOne;
 
-    public bool CalloutOpen = false;
+    public bool _CalloutOpen = false;
 
     private float _DeathCheatingProbability;
     private bool _IsDeathCheating = true;
@@ -140,7 +140,7 @@ public class GameState : MonoBehaviour
         UI.Instance.PlaySpiritDialogue("You're new around these parts, eh? Well, there's a couple things you gotta learn. The main one being, that that bastard cheats! Look at his shifty eyes! Don't let yourself get duped kid.", true);
         yield return new WaitForSeconds(10);
 
-        CalloutOpen = true;
+        _CalloutOpen = true;
         yield return SwapManager.Instance.Swap(SwapManager.Instance.Cups.Count);
     }
 

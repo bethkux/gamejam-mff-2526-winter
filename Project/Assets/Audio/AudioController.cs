@@ -39,7 +39,6 @@ public class AudioController : MonoBehaviour
 
     public void PlaySpiritsSpeakingSound()
     {
-        Debug.Log("Spirits talk");
         SpiritsSpeakingSound.Play();
     }
 
