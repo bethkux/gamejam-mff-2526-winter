@@ -112,6 +112,12 @@ public class HandMovement : MonoBehaviour
     {
         transform.position = HidePosition;
         Position = transform.position;
+    }
+
+    public void Init()
+    {
+        transform.position = HidePosition;
+        Position = transform.position;
         RevealHand();
 
         if (MovementState is State.BoundToCups)
@@ -172,9 +178,9 @@ public class HandMovement : MonoBehaviour
         if (keyboard.spaceKey.wasPressedThisFrame)
         {
             if (SwapManager.Instance.IsBallUnderCup(Cups[idx]))
-            {
-                Debug.Log(Cups[idx].gameObject.name);
-            }
+                StartCoroutine(GameState.Instance.CorrectCupSelected());
+            else
+                StartCoroutine(GameState.Instance.WrongCupSelected());
         }
 
         transform.position = Position;

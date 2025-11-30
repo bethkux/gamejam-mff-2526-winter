@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +15,11 @@ public class PlayerState : MonoBehaviour
 
     private int _CheatsUsed;
     public int CheatsUsed { get => _CheatsUsed; }
+
+
+    private int _Fingers = 5;
+
+    private int _Points = 0;
 
 
     private void Awake()
@@ -49,4 +53,19 @@ public class PlayerState : MonoBehaviour
 
         _CheatsUsed++;
     }
+
+
+    public void LoseFinger()
+    {
+        _Fingers--;
+        HandMovement.Instance.SetHandNormalImage(_Fingers);
+        HandMovement.Instance.SetHandMinigameImage(_Fingers);
+    }
+
+    public void GetPoints(int amount)
+    {
+        _Points += amount;
+    }
+
+
 }

@@ -38,19 +38,6 @@ public class UI : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    private void Start()
-    {
-        StartCoroutine(Test());
-    }
-
-
-    private IEnumerator Test()
-    {
-        yield return new WaitForSeconds(1);
-        ShowDeathTextbox("Hello this is a test message. YAP YAP YAP YAP");
-    }
-
-
     public void UpdateCheatList(Sprite iconSprite)
     {
         GameObject newIcon = Instantiate(_CheatIconPrefab, _CheatContainer.transform);
@@ -58,46 +45,50 @@ public class UI : MonoBehaviour
     }
 
 
-    public void ShowSpiritTextbox(string text)
+    public void PlaySpiritDialogue(string text, bool closeTextbox)
     {
-        _SpiritTextbox.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutSine).OnComplete(() => StartCoroutine(TypeText(_SpiritText, text)));
+        _SpiritTextbox.transform.DOScale(Vector3.one, 0.5f).OnComplete( () => 
+            StartCoroutine(TypeText(_SpiritText, text, closeTextbox))
+        );
     }
 
 
-    public void HideSpiritTextbox()
+    public void PlayDeathDialogue(string text, bool closeTextbox)
     {
-        _SpiritTextbox.transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InSine);
+        _DeathTextbox.transform.DOScale(Vector3.one, 0.5f).OnComplete( () => 
+            StartCoroutine(TypeText(_DeathText, text, closeTextbox))
+        );
     }
 
 
-    public void ShowDeathTextbox(string text)
+    public IEnumerator TypeText(TMP_Text textbox, string message, bool closeTextbox)
     {
-        _DeathTextbox.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutSine).OnComplete(() => StartCoroutine(TypeText(_DeathText, text)));;
-    }
-
-
-    public void HideDeathTextbox()
-    {
-        _DeathTextbox.transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InSine);
-    }
-
-
-    public IEnumerator TypeText(TMP_Text textbox, string message)
-    {
-        string originalText = message;
         int alphaIndex = 0;
 
         yield return new WaitForSeconds(0.5f);
 
+        if (textbox == _DeathText)
+            AudioController.Instance.PlayDeathSpeakingSound();
+        if (textbox == _SpiritText)
+            AudioController.Instance.PlaySpiritsSpeakingSound();
+
         foreach (char c in message)
         {
             alphaIndex++;
-            textbox.text = originalText;
+            textbox.text = message;
             textbox.text = textbox.text.Insert(alphaIndex, "<color=#00000000>");
             yield return new WaitForSeconds(0.05f);
         }
 
+        if (textbox == _DeathText)
+            AudioController.Instance.StopDeathSpeakingSound();
+        if (textbox == _SpiritText)
+            AudioController.Instance.StopSpiritsSpeakingSound();
+
         yield return new WaitForSeconds(3);
-        HideDeathTextbox();
+        if (closeTextbox)
+            _DeathTextbox.transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InSine).OnComplete(() => _DeathText.text = "");
+        else
+            _DeathText.text = "";
     }
 }

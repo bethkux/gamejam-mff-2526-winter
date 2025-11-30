@@ -42,7 +42,7 @@ public class SpriteSequenceManager : MonoBehaviour
         _states.Add(LookingState.Up);
     }
 
-    void Start()
+    void StartAnimation()
     {
         DisableCheating();
         StartCoroutine(RunSequence());

@@ -24,11 +24,12 @@ public class ScreenFader : MonoBehaviour
     }
 
 
-    public void FadeOut(string nextScene, float duration = 1f)
+    public void FadeOut(string nextScene = "", float duration = 1f, LoadSceneMode loadType = LoadSceneMode.Single)
     {
         _CanvasGroup.blocksRaycasts = true;
         _CanvasGroup.DOFade(1, duration).OnComplete(() => {
-            SceneManager.LoadScene(nextScene, LoadSceneMode.Single);
+            if (nextScene != "")
+                SceneManager.LoadScene(nextScene, loadType);
             FadeIn(duration);
         });
     }

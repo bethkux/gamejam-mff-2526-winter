@@ -640,7 +640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c9aef674eca39ee7b43b1c00b6b40e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu
-  _GameSceneName: SampleScene
+  _GameSceneName: MainScene
   _MenuContainer: {fileID: 5899348434512550338}
   _CreditsContainer: {fileID: 602342183793969905}
   _StartCupHighlight: {fileID: 1754539753480796179}

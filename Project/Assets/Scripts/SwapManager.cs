@@ -20,8 +20,8 @@ public class SwapManager : MonoBehaviour
         }
 
         Instance = this;
-        Init();
-        
+
+        // Optional:
         DontDestroyOnLoad(gameObject);
     }
     
@@ -85,6 +85,7 @@ public class SwapManager : MonoBehaviour
         OnRepositionFinished.AddListener(InitBall);
         for (int i = 0; i < _cupsToSpawnAtStart; i++)
         {
+            AudioController.Instance.PlayPlaceCups();
             RegisterCup();
         }
     }
@@ -111,9 +112,9 @@ public class SwapManager : MonoBehaviour
         });
     }
     
-    public void Swap(int swapCount)
+    public IEnumerator Swap(int swapCount)
     {
-        StartCoroutine(SwapRoutine(swapCount));
+        yield return StartCoroutine(SwapRoutine(swapCount));
     }
 
     public void RegisterCup()
@@ -150,7 +151,7 @@ public class SwapManager : MonoBehaviour
 
         seq.Append(cup.transform.DOMove(targetPos, 0.3f).SetEase(Ease.OutBack));
         seq.Join(cup.transform.DORotateQuaternion(targetRot, 0.3f).SetEase(Ease.OutBack));
-        seq.Append(cup.transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0), 0.2f, 6, 0.25f));
+        seq.Append(cup.transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0), 0.2f, 6, 0.25f).OnComplete( () => AudioController.Instance.PlayCupReveal()));
         seq.AppendInterval(delay);
         seq.Append(cup.transform.DOMove(startPos, 0.25f).SetEase(Ease.InOutQuad));
         seq.Join(cup.transform.DORotateQuaternion(startRot, 0.25f).SetEase(Ease.InOutQuad));
@@ -292,6 +293,8 @@ public class SwapManager : MonoBehaviour
 
     private IEnumerator SwapCupsRoutine(Cup a, Cup b)
     {
+        AudioController.Instance.PlayTableSlideIn();
+
         Vector3 posA = a.transform.position;
         Vector3 posB = b.transform.position;
 
