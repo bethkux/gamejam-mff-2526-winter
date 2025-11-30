@@ -66,6 +66,7 @@ public class SwapManager : MonoBehaviour
     private bool _isSwapping = false;
     private bool _isCheckingCup = false;
     private GameObject _ball;
+    private Cup _cheatableCup;
     
     public void Init()
     {
@@ -92,12 +93,20 @@ public class SwapManager : MonoBehaviour
 
     public void MakeRandomCupCheatable()
     {
-        // Get random cup
-        Cup cup = _cups[Random.Range(0, _cups.Count)];
-        cup.IsClickable = true;
+        if (_cheatableCup) return;
         
-        // Enable particles
-        cup.GetComponent<ParticleSystem>().Play();
+        // Get random cup
+        _cheatableCup = _cups[Random.Range(0, _cups.Count)];
+        _cheatableCup.IsClickable = true;
+        _cheatableCup.GetComponent<ParticleSystem>().Play();
+    }
+    
+    public void RemoveCheatableCup()
+    {
+        if (!_cheatableCup) return;
+        _cheatableCup.GetComponent<ParticleSystem>().Stop();
+        _cheatableCup.IsClickable = false;
+        _cheatableCup = null;
     }
 
     public void RemoveAllCups()
