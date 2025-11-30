@@ -1,12 +1,19 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 
 public class Shot : MonoBehaviour
 {
+    public Vector2 StartPosition;
+    public Vector2 EndPosition;
+    public float Duration = 0.5f;
+
     void Start()
     {
-        
+        transform.position = StartPosition;
+        transform.DOMove(EndPosition, Duration)
+                 .SetEase(Ease.OutCubic);
     }
 
     public HandMovement hm;
